@@ -51,16 +51,15 @@ const TopSection = () => {
                 zIndex: -1,
               }}
             >
-              Freelance
+              Lorem ipsum 
             </Text>
             <br />{" "}
             <Text color={"blue.400"} as={"span"}>
-              Design Projects
+            Lorem ipsum
             </Text>{" "}
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-            The project board is an exclusive resource for contract work.
-            It&apos;s perfect for freelancers, agencies, and moonlighters.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <Button
@@ -71,9 +70,9 @@ const TopSection = () => {
                 bg: "blue.500",
               }}
             >
-              Create Project
+              Voirs Offres
             </Button>
-            <Button rounded={"full"}>How It Works</Button>
+            <Button rounded={"full"}>Voir les Talents</Button>
           </Stack>
         </Stack>
       </Flex>

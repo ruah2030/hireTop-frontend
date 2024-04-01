@@ -105,14 +105,14 @@ const Login = () => {;
                                 </Alert>)}
                                 <Stack spacing={4} >
                                     <FormControl id="email" isRequired isInvalid={errors.email && touched.email}>
-                                        <FormLabel>Email address</FormLabel>
+                                        <FormLabel>Email </FormLabel>
                                         <Input type="email" onChange={handleChange('email')} value={values.email} />
                                         {errors.email && touched.email && (
                                             <FormErrorMessage>{errors.email}</FormErrorMessage>
                                         )}
                                     </FormControl>
                                     <FormControl id="password" isRequired isInvalid={errors.password && touched.password}>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>Mot de passe</FormLabel>
                                         <Input type="password" onChange={handleChange('password')} value={values.password} />
                                         {errors.password && touched.password && (
                                             <FormErrorMessage>{errors.password}</FormErrorMessage>
@@ -123,9 +123,9 @@ const Login = () => {;
                                             direction={{ base: 'column', sm: 'row' }}
                                             align={'start'}
                                             justify={'space-between'}>
-                                            <Checkbox>Remember me</Checkbox>
+                                            {/* <Checkbox>Remember me</Checkbox> */}
                                             <ChakraLink color={'blue.400'} as={ReactRouterLink} to={'/forgot-password'} >
-                                                <Text color={'blue.400'}>Forgot password?</Text>
+                                                <Text color={'blue.400'}>Mot de Passe Oublier?</Text>
                                             </ChakraLink>
 
                                         </Stack>
@@ -138,7 +138,7 @@ const Login = () => {;
                                             _hover={{
                                                 bg: 'blue.500',
                                             }}>
-                                            Sign in
+                                            Se Connecter
                                         </Button>
                                     </Stack>
                                 </Stack>
@@ -147,7 +147,7 @@ const Login = () => {;
                     </Formik>
                     <Stack pt={6}>
                         <Text align={'center'}>
-                            You dn't have any account? <ChakraLink color={'blue.400'} as={ReactRouterLink} to={'/register'}>Register</ChakraLink>
+                            Vous n'avez pas de compte ? <ChakraLink color={'blue.400'} as={ReactRouterLink} to={'/register'}>S'Inscrire</ChakraLink>
                         </Text>
                     </Stack>
                 </Box>

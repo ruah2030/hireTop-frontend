@@ -10,6 +10,7 @@ export const BusinessSchema  = Yup.object().shape({
 export const UpdateUserSchema =Yup.object().shape({
   first_name:Yup.string().required("Ce champs est requis"),
   last_name:Yup.string().required("Ce champs est requis"),
+  occupation:Yup.string().required("Ce champs est requis"),
   email:Yup.string().required("Ce champs est requis").email("Email invalide"),
 });
 

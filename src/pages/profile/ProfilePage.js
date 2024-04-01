@@ -26,14 +26,16 @@ import {
 } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import useSWR from "swr";
-import axiosClient, { fetcher } from "../api/api";
+import axiosClient, { fetcher } from "../../api/api";
 import { Formik, Form } from "formik";
-import apiRoute from "../api/route";
+import apiRoute from "../../api/route";
 import { useEffect } from "react";
-import { BusinessSchema, SecuritySchema, UpdateUserSchema } from "../schema";
+import { BusinessSchema, SecuritySchema, UpdateUserSchema } from "../../schema";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/userSlice";
-import { getUserMeta } from "../utils/helpers";
+import { setUser } from "../../redux/userSlice";
+import { getUserMeta } from "../../utils/helpers";
+import Experience from "./components/Experience";
+import Abiliy from "./components/Ability";
 export default function ProfilePage() {
   const [isLoadingOn, setIsLoadingOn] = useState(false);
   const [isUpdateLoading, setUpdatetIsLoading] = useState(false);
@@ -42,17 +44,29 @@ export default function ProfilePage() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log();
+    console.log(user);
   });
   return (
     <Flex bg="white">
       <Tabs width={"100%"}>
         <TabList>
           {user.is_organisation === 1 && <Tab>Entreprise</Tab>}
+          {user.is_organisation === 0 && <Tab>Compétences</Tab>}
+          {user.is_organisation === 0 && <Tab>Experiences</Tab>}
           <Tab>Profile</Tab>
           <Tab>Sécurité</Tab>
         </TabList>
         <TabPanels>
+          {user.is_organisation === 0 && (
+            <TabPanel w={"full"}  maxW={"100vw"}>
+              <Abiliy/>
+            </TabPanel>
+          )}
+          {user.is_organisation === 0 && (
+            <TabPanel w={"full"} maxW={"100vw"}>
+              <Experience/>
+            </TabPanel>
+          )}
           {user.is_organisation === 1 && (
             <TabPanel w={"full"} maxW={"lg"}>
               {org_meta.isLoading ? (
@@ -207,6 +221,7 @@ export default function ProfilePage() {
                 first_name: user.first_name || "",
                 last_name: user.last_name || "",
                 email: user.email || "",
+                occupation: user.occupation || "",
               }}
               onSubmit={(values, { resetForm }) => {
                 setUpdatetIsLoading(true);
@@ -313,6 +328,22 @@ export default function ProfilePage() {
                     />
                     {errors.email && touched.email && (
                       <FormErrorMessage>{errors.email}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={errors.occupation && touched.occupation}
+                  >
+                    <FormLabel>Poste actuel</FormLabel>
+                    <Input
+                      placeholder=""
+                      _placeholder={{ color: "gray.500" }}
+                      type="text"
+                      value={values.occupation}
+                      onChange={handleChange("occupation")}
+                    />
+                    {errors.occupation && touched.occupation && (
+                      <FormErrorMessage>{errors.occupation}</FormErrorMessage>
                     )}
                   </FormControl>
                   <Stack spacing={6} direction={["column", "row"]} mt={5}>

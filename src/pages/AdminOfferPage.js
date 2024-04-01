@@ -27,6 +27,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   FormErrorMessage,
+  Select,
 } from "@chakra-ui/react";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { BsPencilSquare } from "react-icons/bs";
@@ -41,6 +42,8 @@ import { Formik, Form } from "formik";
 import apiRoute from "../api/route";
 import { HiViewGridAdd } from "react-icons/hi";
 import Pagination from "../components/Pagination";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function AdminRoute() {
   const perPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,7 +86,7 @@ function AdminRoute() {
           <Tbody>
             {data.data?.data.map((row) => (
               <Tr key={row.id} bg={"white"}>
-                <Td>{row.name}</Td>
+                <Td>{row.title}</Td>
                 <Td>{row.created_at}</Td>
                 <Td>
                   <HStack spacing="lg" gap={3}>
@@ -110,7 +113,7 @@ function AdminRoute() {
                       perPage={perPage}
                       url={`${apiRoute().offers}/${row.id}`}
                       title={"Modifier"}
-                      name={row.name}
+                      title={row.title}
                     >
                       <IconButton
                         colorScheme="blue"
@@ -139,18 +142,38 @@ function AdminRoute() {
   );
 }
 
-function OfferModal({ children, title, name = "", url, currentPage, perPage }) {
+function OfferModal({
+  children,
+  header_title,
+  title = "",
+  taxonomy = "",
+  desc = "",
+  mode = "",
+  type,
+  url,
+  currentPage,
+  perPage,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState("");
   const validateSchema = Yup.object().shape({
-    name: Yup.string().required("Ce champs est requis"),
+    title: Yup.string().required("Ce champs est requis"),
+    taxonomy: Yup.string().required("Ce champs est requis"),
+    mode: Yup.string().required("Ce champs est requis"),
+    type: Yup.string().required("Ce champs est requis"),
+    desc: Yup.string().required("Ce champs est requis"),
   });
   return (
     <>
       <Box onClick={onOpen}>{children}</Box>
       <Formik
         initialValues={{
-          name: name,
+          title: title,
+          mode: mode,
+          type: type,
+          desc: desc,
+          taxonomy: taxonomy,
         }}
         onSubmit={(values, { resetForm }) => {
           setIsLoading(true);
@@ -183,28 +206,145 @@ function OfferModal({ children, title, name = "", url, currentPage, perPage }) {
               onClose={onClose}
               isOpen={isOpen}
               motionPreset="slideInBottom"
-              size={"xl"}
+              size={"full"}
             >
               <ModalOverlay />
               <ModalContent>
-                <ModalHeader>{title}</ModalHeader>
+                <ModalHeader>{header_title}</ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>
-                  <FormControl
-                    isRequired
-                    isInvalid={errors.name && touched.name}
-                  >
-                    <FormLabel>Nom</FormLabel>
-                    <Input
-                      placeholder="Ajouter utilisateur"
-                      isInvalid={errors.name && touched.name}
-                      value={values.name}
-                      onChange={handleChange("name")}
-                    />
-                    {errors.name && touched.name && (
-                      <FormErrorMessage>{errors.name}</FormErrorMessage>
-                    )}
-                  </FormControl>
+                <ModalBody
+                  display={"flex"}
+                  w="full"
+                  maxW="100vw"
+                  justifyContent={"center"}
+                >
+                  <Box w={"2xl"}>
+                    <FormControl
+                      isRequired
+                      isInvalid={errors.title && touched.title}
+                    >
+                      <FormLabel>Titre</FormLabel>
+                      <Input
+                        placeholder="Titre"
+                        isInvalid={errors.title && touched.title}
+                        value={values.title}
+                        onChange={handleChange("title")}
+                      />
+                      {errors.title && touched.title && (
+                        <FormErrorMessage>{errors.title}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      isRequired
+                      isInvalid={errors.desc && touched.desc}
+                    >
+                      <FormLabel>Descroption</FormLabel>
+                      <ReactQuill
+                        theme="snow"
+                        value={values.desc}
+                        onChange={(content, delta, source, editor) => {
+                          setFieldValue("desc", content, true);
+                          setValue(content);
+                          
+                        }}
+                      />
+                      {errors.desc && touched.desc && (
+                        <FormErrorMessage>{errors.desc}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      id="type"
+                      isRequired
+                      isInvalid={errors.type && touched.type}
+                    >
+                      <FormLabel>Type de travail</FormLabel>
+                      <Select
+                        placeholder="Type de travail"
+                        value={values.type}
+                        onChange={handleChange("type")}
+                      >
+                        <option value="fulltime">Plein temps</option>
+                        <option value="partial">Temps partiel</option>
+                      </Select>
+                      {errors.type && touched.type && (
+                        <FormErrorMessage>{errors.type}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      isRequired
+                      isInvalid={errors.mode && touched.mode}
+                    >
+                      <FormLabel>Mode de travail</FormLabel>
+                      <Select
+                        placeholder="Mode de travail"
+                        value={values.mode}
+                        onChange={handleChange("mode")}
+                      >
+                        <option value="presence">A distance</option>
+                        <option value="remote">Remote</option>
+                      </Select>
+                      {errors.mode && touched.mode && (
+                        <FormErrorMessage>{errors.mode}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      isRequired
+                      isInvalid={errors.mode && touched.mode}
+                    >
+                      <FormLabel>Categorie</FormLabel>
+                      <Select
+                        placeholder="Categorie"
+                        value={values.taxonomy}
+                        onChange={handleChange("taxonomy")}
+                      >
+                        <optgroup label="Secteur primaire">
+                          <option value="Agriculture">Agriculture</option>
+                          <option value="Pêche">Pêche</option>
+                          <option value="Exploitation forestière">
+                            Exploitation forestière
+                          </option>
+                          <option value="Extraction minière">
+                            Extraction minière
+                          </option>
+                        </optgroup>
+                        <optgroup label="Secteur secondaire">
+                          <option value="Industrie manufacturière">
+                            Industrie manufacturière
+                          </option>
+                          <option value="Construction">Construction</option>
+                          <option value="Production d'énergie">
+                            Production d'énergie
+                          </option>
+                        </optgroup>
+                        <optgroup label="Secteur tertiaire">
+                          <option value="Services financiers">
+                            Services financiers
+                          </option>
+                          <option value="Éducation">Éducation</option>
+                          <option value="Santé">Santé</option>
+                          <option value="Services aux entreprises">
+                            Services aux entreprises
+                          </option>
+                          <option value="Commerce de détail et de gros">
+                            Commerce de détail et de gros
+                          </option>
+                          <option value="Hôtellerie et restauration">
+                            Hôtellerie et restauration
+                          </option>
+                          <option value="Technologies de l'information et de la communication (TIC)">
+                            Technologies de l'information et de la communication
+                            (TIC)
+                          </option>
+                          <option value="Services de conseil">
+                            Services de conseil
+                          </option>
+                        </optgroup>
+                      </Select>
+                      {errors.taxonomy && touched.taxonomy && (
+                        <FormErrorMessage>{errors.taxonomy}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </Box>
                 </ModalBody>
                 <ModalFooter>
                   <Button colorScheme="blue" mr={3} onClick={onClose}>

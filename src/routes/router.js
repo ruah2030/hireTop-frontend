@@ -14,7 +14,7 @@ import AuthGuardRoute from "./AuthGuardRoute";
 import NotFoundPage from "../pages/NotFoundPage";
 import OfferPage from "../pages/OfferPage";
 import AdminHomePage from "../pages/AdminHomePage";
-import ProfilePage from "../pages/ProfilePage";
+import ProfilePage from "../pages/profile/ProfilePage";
 import AdminOfferPage from "../pages/AdminOfferPage";
 import OnlyForOrgRoute from "./OnlyForOrgRoute";
 

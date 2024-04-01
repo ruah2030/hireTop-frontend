@@ -15,7 +15,7 @@ import {
   useColorModeValue,
   FormErrorMessage,
   Link as ChakraLink,
-  Select
+  Select,
 } from "@chakra-ui/react";
 import {
   Outlet,
@@ -39,6 +39,11 @@ export default function Register() {
     first_name: Yup.string().required("Ce champs est requis"),
     last_name: Yup.string().required("Ce champs est requis"),
     type: Yup.string().required("Ce champs est requis"),
+    occupation: Yup.string().when("type", (type, field) => {
+      if (type[0] === "normal") {
+        return field.required("Veuillez renseigner votre poste actuel");
+      }
+    }),
     email: Yup.string()
       .email("Please enter a valid email")
       .required("Ce champs est requis"),
@@ -87,7 +92,8 @@ export default function Register() {
               email: "",
               password: "",
               password_confirmation: "",
-              type:""
+              type: "",
+              occupation: "",
             }}
             onSubmit={(values, actions) => {
               setIsLoading(true);
@@ -125,7 +131,7 @@ export default function Register() {
                         isRequired
                         isInvalid={errors.first_name && touched.first_name}
                       >
-                        <FormLabel>First Name</FormLabel>
+                        <FormLabel>Nom</FormLabel>
                         <Input
                           type="text"
                           onChange={handleChange("first_name")}
@@ -144,7 +150,7 @@ export default function Register() {
                         isRequired
                         isInvalid={errors.last_name && touched.last_name}
                       >
-                        <FormLabel>Last Name</FormLabel>
+                        <FormLabel>Prénom</FormLabel>
                         <Input
                           type="text"
                           onChange={handleChange("last_name")}
@@ -165,7 +171,7 @@ export default function Register() {
                       (errors.email && touched.email) || emailAlreadyTaken
                     }
                   >
-                    <FormLabel>Email address</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <Input
                       type="email"
                       onChange={(e) => {
@@ -178,7 +184,7 @@ export default function Register() {
                     />
                     {((errors.email && touched.email) || emailAlreadyTaken) && (
                       <FormErrorMessage>
-                        {errors.email || "This email is already taken"}
+                        {errors.email || "Ce email est de pris"}
                       </FormErrorMessage>
                     )}
                   </FormControl>
@@ -188,7 +194,11 @@ export default function Register() {
                     isInvalid={errors.type && touched.type}
                   >
                     <FormLabel>Type Utilisateur</FormLabel>
-                    <Select placeholder="Select option" value={values.type} onChange={handleChange("type")}>
+                    <Select
+                      placeholder="Select option"
+                      value={values.type}
+                      onChange={handleChange("type")}
+                    >
                       <option value="normal">Utilsateur</option>
                       <option value="special">Entreprise</option>
                     </Select>
@@ -196,12 +206,29 @@ export default function Register() {
                       <FormErrorMessage>{errors.type}</FormErrorMessage>
                     )}
                   </FormControl>
+                  {values.type === "normal" && (
+                    <FormControl
+                      id="occupation"
+                      isRequired
+                      isInvalid={errors.occupation && touched.occupation}
+                    >
+                      <FormLabel>Poste Actuel</FormLabel>
+                      <Input
+                        type="text"
+                        onChange={handleChange("occupation")}
+                        value={values.occupation}
+                      />
+                      {errors.occupation && touched.occupation && (
+                        <FormErrorMessage>{errors.occupation}</FormErrorMessage>
+                      )}
+                    </FormControl>
+                  )}
                   <FormControl
                     id="password"
                     isRequired
                     isInvalid={errors.password && touched.password}
                   >
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Mot de passe</FormLabel>
                     <InputGroup>
                       <Input
                         type={showPassword ? "text" : "password"}
@@ -231,7 +258,7 @@ export default function Register() {
                       touched.password_confirmation
                     }
                   >
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Confirmer Mot de Passe</FormLabel>
                     <InputGroup>
                       <Input
                         type={showPassword ? "text" : "password"}
@@ -270,18 +297,18 @@ export default function Register() {
                         bg: "blue.500",
                       }}
                     >
-                      Sign up
+                      S'Inscrire
                     </Button>
                   </Stack>
                   <Stack pt={6}>
                     <Text align={"center"}>
-                      Already a user?{" "}
+                      Vous avez deja un compte?{" "}
                       <ChakraLink
                         color={"blue.400"}
                         as={ReactRouterLink}
                         to={"/login"}
                       >
-                        Login
+                        Se Connecter
                       </ChakraLink>
                     </Text>
                   </Stack>
