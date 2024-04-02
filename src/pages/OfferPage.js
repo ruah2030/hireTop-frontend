@@ -31,6 +31,7 @@ import { fetcher } from "../api/api";
 import useSWR from "swr";
 import { capitalizeFirstLetter, truncateWithEllipsis } from "../utils/helpers";
 import Pagination from "../components/Pagination";
+import { useNavigate } from "react-router-dom";
 
 export default function OfferPage() {
   const perPage = 6;
@@ -155,6 +156,7 @@ const SearchField = ({ onSearch }) => {
 };
 
 function OfferItems({ item }) {
+  const navigate = useNavigate();
   return (
     <Stack p="4" boxShadow="lg" m="4" borderRadius="sm">
       <Stack direction="row" alignItems="center">
@@ -174,8 +176,16 @@ function OfferItems({ item }) {
           ></div>
         </Text>
         <Stack direction={{ base: "column", md: "row" }}>
-          <Button variant="outline" colorScheme="blue">
-             Plus de Details
+          <Button
+            variant="outline"
+            colorScheme="blue"
+            onClick={() => {
+              navigate(`/offers/${item.id}`, {
+                state: item,
+              });
+            }}
+          >
+            Plus de Details
           </Button>
         </Stack>
       </Stack>
