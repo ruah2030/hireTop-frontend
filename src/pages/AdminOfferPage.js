@@ -28,6 +28,7 @@ import {
   useDisclosure,
   FormErrorMessage,
   Select,
+  Switch,
 } from "@chakra-ui/react";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { BsPencilSquare } from "react-icons/bs";
@@ -51,7 +52,7 @@ function AdminRoute() {
     `${apiRoute().offers_paginate}?per_page=${perPage}&page=${currentPage}`,
     fetcher
   );
-  return false ? (
+  return isLoading ? (
     <Flex alignItems={"center"} justifyContent={"center"} minH={"70vh"}>
       <Spinner
         thickness="4px"
@@ -74,7 +75,7 @@ function AdminRoute() {
           </Button>
         </OfferModal>
       </Box>
-      {/* <TableContainer>
+      <TableContainer>
         <Table>
           <Thead>
             <Tr bg={"white"}>
@@ -84,7 +85,7 @@ function AdminRoute() {
             </Tr>
           </Thead>
           <Tbody>
-            {data.data?.data.map((row) => (
+            {data?.data?.data.map((row) => (
               <Tr key={row.id} bg={"white"}>
                 <Td>{row.title}</Td>
                 <Td>{row.created_at}</Td>
@@ -112,8 +113,13 @@ function AdminRoute() {
                       currentPage={currentPage}
                       perPage={perPage}
                       url={`${apiRoute().offers}/${row.id}`}
-                      title={"Modifier"}
+                      header_title={"Modifier"}
                       title={row.title}
+                      description={row.description}
+                      mode={row.mode}
+                      type={row.type}
+                      taxonomy={row.taxonomy}
+                      active={row.active}
                     >
                       <IconButton
                         colorScheme="blue"
@@ -129,15 +135,15 @@ function AdminRoute() {
           </Tbody>
         </Table>
       </TableContainer>
-      {data.data?.total > perPage && (
+      {data?.data?.total > perPage && (
         <Pagination
-          currentPage={data.data?.current_page}
-          totalPages={data.data?.last_page}
+          currentPage={data?.data?.current_page}
+          totalPages={data?.data?.last_page}
           onPageChange={(page) => {
             setCurrentPage(page);
           }}
         />
-      )} */}
+      )}
     </>
   );
 }
@@ -147,9 +153,10 @@ function OfferModal({
   header_title,
   title = "",
   taxonomy = "",
-  desc = "",
+  description = "",
   mode = "",
   type,
+  active = true,
   url,
   currentPage,
   perPage,
@@ -162,8 +169,13 @@ function OfferModal({
     taxonomy: Yup.string().required("Ce champs est requis"),
     mode: Yup.string().required("Ce champs est requis"),
     type: Yup.string().required("Ce champs est requis"),
-    desc: Yup.string().required("Ce champs est requis"),
+    description: Yup.string().required("Ce champs est requis"),
+    active: Yup.boolean().required("Ce champs est requis"),
   });
+
+  const handleActive = (e, setFieldValue) => {
+    setFieldValue("active", e.target.checked, true);
+  };
   return (
     <>
       <Box onClick={onOpen}>{children}</Box>
@@ -172,22 +184,30 @@ function OfferModal({
           title: title,
           mode: mode,
           type: type,
-          desc: desc,
+          description: description,
           taxonomy: taxonomy,
+          active: active,
         }}
         onSubmit={(values, { resetForm }) => {
           setIsLoading(true);
-          axiosClient.post(url, values).then((res) => {
-            setIsLoading(false);
-            mutate(
-              `${
-                apiRoute().offers_paginate
-              }?per_page=${perPage}&page=${currentPage}`
-            );
-            resetForm();
+          axiosClient
+            .post(url, values)
+            .then((res) => {
+              setIsLoading(false);
+              mutate(
+                `${
+                  apiRoute().offers_paginate
+                }?per_page=${perPage}&page=${currentPage}`
+              );
+              if (title === "") {
+                resetForm();
+              }
 
-            onClose();
-          });
+              onClose();
+            })
+            .catch((e) => {
+              setIsLoading(false);
+            });
         }}
         validationSchema={validateSchema}
       >
@@ -236,20 +256,21 @@ function OfferModal({
                     </FormControl>
                     <FormControl
                       isRequired
-                      isInvalid={errors.desc && touched.desc}
+                      isInvalid={errors.description && touched.description}
                     >
-                      <FormLabel>Descroption</FormLabel>
+                      <FormLabel>Description </FormLabel>
                       <ReactQuill
                         theme="snow"
-                        value={values.desc}
+                        value={values.description}
                         onChange={(content, delta, source, editor) => {
-                          setFieldValue("desc", content, true);
+                          setFieldValue("description", content, true);
                           setValue(content);
-                          
                         }}
                       />
-                      {errors.desc && touched.desc && (
-                        <FormErrorMessage>{errors.desc}</FormErrorMessage>
+                      {errors.description && touched.description && (
+                        <FormErrorMessage>
+                          {errors.description}
+                        </FormErrorMessage>
                       )}
                     </FormControl>
                     <FormControl
@@ -280,7 +301,7 @@ function OfferModal({
                         value={values.mode}
                         onChange={handleChange("mode")}
                       >
-                        <option value="presence">A distance</option>
+                        <option value="presence">Presentiel</option>
                         <option value="remote">Remote</option>
                       </Select>
                       {errors.mode && touched.mode && (
@@ -289,7 +310,7 @@ function OfferModal({
                     </FormControl>
                     <FormControl
                       isRequired
-                      isInvalid={errors.mode && touched.mode}
+                      isInvalid={errors.taxonomy && touched.taxonomy}
                     >
                       <FormLabel>Categorie</FormLabel>
                       <Select
@@ -343,6 +364,19 @@ function OfferModal({
                       {errors.taxonomy && touched.taxonomy && (
                         <FormErrorMessage>{errors.taxonomy}</FormErrorMessage>
                       )}
+                    </FormControl>
+                    <FormControl
+                      isRequired
+                      isInvalid={errors.active && touched.active}
+                    >
+                      <FormLabel>Publier</FormLabel>
+                      <Switch
+                        value={values.active}
+                        onChange={(e) => {
+                          handleActive(e, setFieldValue);
+                        }}
+                        isChecked={values.active}
+                      />
                     </FormControl>
                   </Box>
                 </ModalBody>

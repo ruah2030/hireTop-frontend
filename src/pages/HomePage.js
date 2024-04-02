@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Link as ReactRouterLink } from "react";
 import {
   Box,
   Heading,
@@ -14,6 +14,7 @@ import {
   useBreakpointValue,
   Flex,
   Image,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
 import {
@@ -23,15 +24,17 @@ import {
   FcDonate,
   FcManager,
 } from "react-icons/fc";
+import { useNavigate, useNavigation } from "react-router-dom";
 function HomePage() {
   return (
     <>
-     <TopSection/>
+      <TopSection />
     </>
   );
 }
 
 const TopSection = () => {
+  const navigate = useNavigate()
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
@@ -51,15 +54,15 @@ const TopSection = () => {
                 zIndex: -1,
               }}
             >
-              Lorem ipsum 
+              Lorem ipsum
             </Text>
             <br />{" "}
             <Text color={"blue.400"} as={"span"}>
-            Lorem ipsum
+              Lorem ipsum
             </Text>{" "}
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <Button
@@ -68,6 +71,9 @@ const TopSection = () => {
               color={"white"}
               _hover={{
                 bg: "blue.500",
+              }}
+              onClick={()=>{
+                navigate("/offers");
               }}
             >
               Voirs Offres
@@ -88,7 +94,5 @@ const TopSection = () => {
     </Stack>
   );
 };
-
-
 
 export default HomePage;

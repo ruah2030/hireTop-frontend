@@ -17,6 +17,7 @@ import AdminHomePage from "../pages/AdminHomePage";
 import ProfilePage from "../pages/profile/ProfilePage";
 import AdminOfferPage from "../pages/AdminOfferPage";
 import OnlyForOrgRoute from "./OnlyForOrgRoute";
+import OfferDetailsPage from "../pages/OfferDetailsPage";
 
 function AppRouter() {
   return (
@@ -46,6 +47,10 @@ function AppRouter() {
           <Route
             path="/offers"
             element={<AuthGuardRoute element={<OfferPage />} />}
+          />
+          <Route
+            path="/offers/:id/"
+            element={<AuthGuardRoute element={<OfferDetailsPage />} />}
           />
         </Route>
         <Route element={<PrivateRoute element={<AdminLayout />} />}>

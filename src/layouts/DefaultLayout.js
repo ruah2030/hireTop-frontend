@@ -328,41 +328,16 @@ const MobileNavItem = ({ label, children, href }) => {
 };
 
 const NAV_ITEMS = [
-  // {
-  //     label: 'Inspiration',
-  //     children: [
-  //         {
-  //             label: 'Explore Design Work',
-  //             subLabel: 'Trending Design to inspire you',
-  //             href: '#',
-  //         },
-  //         {
-  //             label: 'New & Noteworthy',
-  //             subLabel: 'Up-and-coming Designers',
-  //             href: '#',
-  //         },
-  //     ],
-  // },
-  // {
-  //     label: 'Find Work',
-  //     children: [
-  //         {
-  //             label: 'Job Board',
-  //             subLabel: 'Find your dream design job',
-  //             href: '#',
-  //         },
-  //         {
-  //             label: 'Freelance Projects',
-  //             subLabel: 'An exclusive list for contract work',
-  //             href: '#',
-  //         },
-  //     ],
-  // },
+
+  
   {
     label: "Acceuil",
     href: "/",
   },
-
+  {
+    label: "Offres",
+    href: "/offers",
+  },
   {
     label: "Contacts",
     href: "/contacts",
@@ -473,7 +448,7 @@ function Footer() {
             <ListHeader>News Lettre</ListHeader>
             <Stack direction={"row"}>
               <Input
-                placeholder={"Your email address"}
+                placeholder={""}
                 bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
                 border={0}
                 _focus={{
