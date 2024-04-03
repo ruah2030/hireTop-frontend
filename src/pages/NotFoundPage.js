@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Box, Heading, Text, Button } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
 
 export default function NotFoundPage() {
+  const navigate = useNavigate()
   return (
     <Box textAlign="center" py={10} px={6}>
       <Heading
@@ -14,18 +16,22 @@ export default function NotFoundPage() {
         404
       </Heading>                                             
       <Text fontSize="18px" mt={3} mb={2}>
-        Page Not Found
+        Page non trouvée
       </Text>
       <Text color={'gray.500'} mb={6}>
-        The page you&apos;re looking for does not seem to exist
+        La page que vous chechez n'esiste pas
       </Text>
 
       <Button
         colorScheme="blue"
         bgGradient="linear(to-r, blue.400, blue.500, blue.600)"
         color="white"
-        variant="solid">
-        Go to Home
+        variant="solid"  
+        onClick={()=>{
+          navigate('/');
+        }}
+        >
+        Allez à l'acceuil
       </Button>
     </Box>
   )

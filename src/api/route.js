@@ -13,5 +13,7 @@ export default function apiRoute() {
     user_org_meta: "/api/users/org/meta",
     get_user_org_meta: "/api/users/meta",
     change_password: "/api/users/change/password",
+    subscriptions: "/api/subscriptions",
+    subscriptions_paginate: "/api/subscriptions/paginate",
   };
 }

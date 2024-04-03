@@ -34,18 +34,11 @@ import { useEffect, useState } from "react";
 import axiosClient from "../api/api";
 import apiRoute from "../api/route";
 import { setUser } from "../redux/userSlice";
-import { HiViewGridAdd } from "react-icons/hi";
-import { GoTerminal } from "react-icons/go";
-import { RiCheckboxIndeterminateLine } from "react-icons/ri";
-import { AiOutlineFolderOpen } from "react-icons/ai";
-import { GrTicket } from "react-icons/gr";
-import { IconType } from "react-icons";
-import { BiLockOpen, BiLinkAlt } from "react-icons/bi";
+
 import { TiDocumentText } from "react-icons/ti";
-import { FiHome, FiSettings, FiUsers, FiUser } from "react-icons/fi";
+import { FiHome, FiSettings , } from "react-icons/fi";
 import { BiClipboard } from "react-icons/bi";
-import { compareElements, extractLinkAndFunctions } from "../utils/helpers";
-import { LINKS_ITEMS } from "../constant/app_constant";
+
 const SidebarContent = ({ user, onClose, ...rest }) => {
   const [menus, setMenus] = useState([]);
 
@@ -58,6 +51,11 @@ const SidebarContent = ({ user, onClose, ...rest }) => {
       name: "Offres",
       icon: BiClipboard,
       url: "/admin/offers",
+    });
+    LINKS_ITEMS.push({
+      name: "Candidatures",
+      icon: TiDocumentText,
+      url: "/admin/applications",
     });
   }
   useEffect(() => {
@@ -215,17 +213,6 @@ const MobileNav = ({ onOpen, user, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              {/* <ChakraLink
-                as={ReactRouterLink}
-                to={'/admin/profile'}
-                style={{ textDecoration: 'none' }}
-              > */}
-              {/* <MenuItem> */}
-              {/* <ChakraLink as={ReactRouterLink} to={'/admin/profile'} style={{ textDecoration: 'none' }}> */}
-              {/* <Box>Profile</Box> */}
-              {/* </ChakraLink> */}
-              {/* </MenuItem> */}
-              {/* </ChakraLink> */}
               <ChakraLink
                 as={ReactRouterLink}
                 to={"/admin/settings"}

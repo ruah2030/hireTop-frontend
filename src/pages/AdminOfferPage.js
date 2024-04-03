@@ -45,7 +45,7 @@ import { HiViewGridAdd } from "react-icons/hi";
 import Pagination from "../components/Pagination";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-function AdminRoute() {
+function AdminOfferPage() {
   const perPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const { data, error, isLoading, mutate } = useSWR(
@@ -401,4 +401,4 @@ function OfferModal({
   );
 }
 
-export default AdminRoute;
+export default AdminOfferPage;
