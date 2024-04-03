@@ -57,13 +57,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FiEye } from "react-icons/fi";
 import { capitalizeFirstLetter } from "../utils/helpers";
-function AdminSubscriptionPage() {
+import { INIT, REJECT } from "../constant/app_constant";
+function AdminFolderPage() {
   const perPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const { data, error, isLoading, mutate } = useSWR(
-    `${
-      apiRoute().subscriptions_paginate
-    }?per_page=${perPage}&page=${currentPage}`,
+    `${apiRoute().folders}`,
     fetcher
   );
   return isLoading ? (
@@ -83,15 +82,25 @@ function AdminSubscriptionPage() {
           <Thead>
             <Tr bg={"white"}>
               <Th p={7}>Offre</Th>
-              <Th>Nombres de Candidatures</Th>
+              <Th>Status</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {data?.data?.data.map((row) => (
+            {data?.data.map((row) => (
               <Tr key={row.id} bg={"white"}>
-                <Td>{row.title}</Td>
-                <Td>{row?.subscriptions?.length}</Td>
+                <Td>{row.offer.title}</Td>
+                <Td>
+                  <Tag size="lg" colorScheme="blue" borderRadius="full">
+                    <TagLabel>
+                      {row.step === INIT
+                        ? "En attente"
+                        : row.step === REJECT
+                        ? "Rejeté"
+                        : "Valider"}
+                    </TagLabel>
+                  </Tag>
+                </Td>
                 <Td>
                   <HStack spacing="lg" gap={3}>
                     <SubModal users={row?.subscriptions}>
@@ -148,61 +157,7 @@ function SubModal({ children, users, title = "" }) {
             justifyContent={"center"}
           >
             <Box w={"3xl"}>
-              <TableContainer>
-                <Table>
-                  <Thead>
-                    <Tr bg={"white"}>
-                      <Th p={7}>Nom & Prenoms</Th>
-                      <Th>Competences</Th>
-                      <Th>Experiences</Th>
-                      <Th>Action</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {users?.map((row) => (
-                      <Tr key={row.id} bg={"white"}>
-                        <Td>
-                          {row.user?.first_name} {row.user.first_name}
-                        </Td>
-                        <Td>
-                          <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
-                            {row.user?.abilities.map((el) => (
-                              <Tag
-                                size="lg"
-                                colorScheme="blue"
-                                borderRadius="full"
-                              >
-                                <TagLabel>{el.name}</TagLabel>
-                              </Tag>
-                            ))}
-                          </Flex>
-                        </Td>
-                        <Td>
-                          <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
-                            {row.user?.experiences.map((el) => (
-                              <Tag
-                                size="lg"
-                                colorScheme="blue"
-                                borderRadius="full"
-                              >
-                                <TagLabel>{el.name}</TagLabel>
-                              </Tag>
-                            ))}
-                          </Flex>
-                        </Td>
-                        <Td>
-                          <Button colorScheme="blue" mr={3}>
-                            Discutter
-                          </Button>
-                          <Button colorScheme="red" mr={3}>
-                            Rejeter
-                          </Button>
-                        </Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
+            
             </Box>
           </ModalBody>
           <ModalFooter>
@@ -216,6 +171,4 @@ function SubModal({ children, users, title = "" }) {
   );
 }
 
-
-
-export default AdminSubscriptionPage;
+export default AdminFolderPage;

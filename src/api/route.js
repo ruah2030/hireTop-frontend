@@ -15,5 +15,6 @@ export default function apiRoute() {
     change_password: "/api/users/change/password",
     subscriptions: "/api/subscriptions",
     subscriptions_paginate: "/api/subscriptions/paginate",
+    folders:"/api/subscriptions/folders"
   };
 }

@@ -19,6 +19,7 @@ import AdminOfferPage from "../pages/AdminOfferPage";
 import OnlyForOrgRoute from "./OnlyForOrgRoute";
 import OfferDetailsPage from "../pages/OfferDetailsPage";
 import AdminSubscriptionPage from "../pages/AdminSubscriptionPage";
+import AdminFolderPage from "../pages/AdminFolderPage";
 
 function AppRouter() {
   return (
@@ -62,6 +63,10 @@ function AppRouter() {
           <Route
             path="/admin/settings"
             element={<PrivateRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="/admin/folders"
+            element={<PrivateRoute element={<AdminFolderPage />} />}
           />
           <Route
             path="/admin/offers"

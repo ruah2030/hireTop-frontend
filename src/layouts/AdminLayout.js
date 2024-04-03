@@ -36,7 +36,7 @@ import apiRoute from "../api/route";
 import { setUser } from "../redux/userSlice";
 
 import { TiDocumentText } from "react-icons/ti";
-import { FiHome, FiSettings , } from "react-icons/fi";
+import { FiHome, FiSettings } from "react-icons/fi";
 import { BiClipboard } from "react-icons/bi";
 
 const SidebarContent = ({ user, onClose, ...rest }) => {
@@ -56,6 +56,12 @@ const SidebarContent = ({ user, onClose, ...rest }) => {
       name: "Candidatures",
       icon: TiDocumentText,
       url: "/admin/applications",
+    });
+  } else {
+    LINKS_ITEMS.push({
+      name: "Mes Dossiers",
+      icon: TiDocumentText,
+      url: "/admin/folders",
     });
   }
   useEffect(() => {

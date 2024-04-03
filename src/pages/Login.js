@@ -149,13 +149,13 @@ const Login = () => {
                       justify={"space-between"}
                     >
                       {/* <Checkbox>Remember me</Checkbox> */}
-                      <ChakraLink
+                      {/* <ChakraLink
                         color={"blue.400"}
                         as={ReactRouterLink}
                         to={"/forgot-password"}
                       >
                         <Text color={"blue.400"}>Mot de Passe Oublier?</Text>
-                      </ChakraLink>
+                      </ChakraLink> */}
                     </Stack>
                     <Button
                       isLoading={isLoading}
