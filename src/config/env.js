@@ -2,7 +2,7 @@
 
 const envConfigVar = {
     production: {
-        apiBaseUrl:'https://api-tpe.bestcash.me'
+        apiBaseUrl:'http://127.0.0.1:8000'
     },
     development: {
         apiBaseUrl:'http://127.0.0.1:8000'
