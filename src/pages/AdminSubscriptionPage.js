@@ -147,63 +147,61 @@ function SubModal({ children, users, title = "" }) {
             maxW="100vw"
             justifyContent={"center"}
           >
-            <Box w={"3xl"}>
-              <TableContainer>
-                <Table>
-                  <Thead>
-                    <Tr bg={"white"}>
-                      <Th p={7}>Nom & Prenoms</Th>
-                      <Th>Competences</Th>
-                      <Th>Experiences</Th>
-                      <Th>Action</Th>
+            <TableContainer>
+              <Table>
+                <Thead>
+                  <Tr bg={"white"}>
+                    <Th p={7}>Nom & Prenoms</Th>
+                    <Th>Competences</Th>
+                    <Th>Experiences</Th>
+                    <Th>Action</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {users?.map((row) => (
+                    <Tr key={row.id} bg={"white"}>
+                      <Td>
+                        {row.user?.first_name} {row.user.first_name}
+                      </Td>
+                      <Td>
+                        <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
+                          {row.user?.abilities.map((el) => (
+                            <Tag
+                              size="lg"
+                              colorScheme="blue"
+                              borderRadius="full"
+                            >
+                              <TagLabel>{el.name}</TagLabel>
+                            </Tag>
+                          ))}
+                        </Flex>
+                      </Td>
+                      <Td>
+                        <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
+                          {row.user?.experiences.map((el) => (
+                            <Tag
+                              size="lg"
+                              colorScheme="blue"
+                              borderRadius="full"
+                            >
+                              <TagLabel>{el.name}</TagLabel>
+                            </Tag>
+                          ))}
+                        </Flex>
+                      </Td>
+                      <Td>
+                        <Button colorScheme="blue" mr={3}>
+                          Discutter
+                        </Button>
+                        <Button colorScheme="red" mr={3}>
+                          Rejeter
+                        </Button>
+                      </Td>
                     </Tr>
-                  </Thead>
-                  <Tbody>
-                    {users?.map((row) => (
-                      <Tr key={row.id} bg={"white"}>
-                        <Td>
-                          {row.user?.first_name} {row.user.first_name}
-                        </Td>
-                        <Td>
-                          <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
-                            {row.user?.abilities.map((el) => (
-                              <Tag
-                                size="lg"
-                                colorScheme="blue"
-                                borderRadius="full"
-                              >
-                                <TagLabel>{el.name}</TagLabel>
-                              </Tag>
-                            ))}
-                          </Flex>
-                        </Td>
-                        <Td>
-                          <Flex flexWrap={"wrap"} direction={"row"} gap={3}>
-                            {row.user?.experiences.map((el) => (
-                              <Tag
-                                size="lg"
-                                colorScheme="blue"
-                                borderRadius="full"
-                              >
-                                <TagLabel>{el.name}</TagLabel>
-                              </Tag>
-                            ))}
-                          </Flex>
-                        </Td>
-                        <Td>
-                          <Button colorScheme="blue" mr={3}>
-                            Discutter
-                          </Button>
-                          <Button colorScheme="red" mr={3}>
-                            Rejeter
-                          </Button>
-                        </Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Box>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -215,7 +213,5 @@ function SubModal({ children, users, title = "" }) {
     </>
   );
 }
-
-
 
 export default AdminSubscriptionPage;

@@ -238,7 +238,7 @@ function OfferModal({
                   maxW="100vw"
                   justifyContent={"center"}
                 >
-                  <Box w={"2xl"}>
+                  <Box >
                     <FormControl
                       isRequired
                       isInvalid={errors.title && touched.title}

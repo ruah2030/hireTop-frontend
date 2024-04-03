@@ -103,6 +103,24 @@ export default function OfferPage() {
               <option value="Services de conseil">Services de conseil</option>
             </optgroup>
           </Select>
+          {data?.data?.data?.length === 0 && (
+            <Box
+              width={"100%"}
+              height={"100vh"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              textAlign={"center"}
+              display={"flex"}
+            >
+              <Heading textAlign={"center"} > Pas d'offres disponible</Heading>
+            </Box>
+          )}
+          <Box
+            height={{
+              base: 70,
+              md: 90,
+            }}
+          />
           <SimpleGrid
             columns={{
               base: 1,
@@ -113,12 +131,7 @@ export default function OfferPage() {
               <OfferItems item={item} />
             ))}
           </SimpleGrid>
-          <Box
-            height={{
-              base: 70,
-              md: 90,
-            }}
-          />
+
           <Box position={"absolute"} bottom={0} left={10} right={10} mb={3}>
             {data?.data?.total > perPage && (
               <Pagination

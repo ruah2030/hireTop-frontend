@@ -78,7 +78,7 @@ const TopSection = () => {
             >
               Voirs Offres
             </Button>
-            <Button rounded={"full"}>Voir les Talents</Button>
+            {/* <Button rounded={"full"}>Voir les Talents</Button> */}
           </Stack>
         </Stack>
       </Flex>
