@@ -199,7 +199,7 @@ export default function Register() {
                       value={values.type}
                       onChange={handleChange("type")}
                     >
-                      <option value="normal">Utilsateur</option>
+                      <option value="normal">Talent</option>
                       <option value="special">Entreprise</option>
                     </Select>
                     {errors.type && touched.type && (
