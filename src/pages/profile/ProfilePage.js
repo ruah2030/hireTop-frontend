@@ -44,7 +44,7 @@ export default function ProfilePage() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(user);
+   
   });
   return (
     <Flex bg="white">
@@ -106,6 +106,7 @@ export default function ProfilePage() {
                           toast({
                             title: "Modification",
                             description: "Information mise a jour",
+                            isClosable:true
                           });
                         })
                         .catch((err) => {
@@ -202,7 +203,7 @@ export default function ProfilePage() {
                             colorScheme="teal"
                             variant="solid"
                             onClick={handleSubmit}
-                            isLoading={isLoadingOn}
+                            isLoading={isUpdateLoading}
                           >
                             Valider
                           </Button>
@@ -238,6 +239,7 @@ export default function ProfilePage() {
                     toast({
                       title: "Modification",
                       description: "Information mise a jour",
+                      isClosable:true
                     });
                   })
                   .catch((err) => {
@@ -380,6 +382,7 @@ export default function ProfilePage() {
                     toast({
                       title: "Modification",
                       description: "Information mise a jour",
+                      isClosable:true
                     });
                   })
                   .catch((err) => {
